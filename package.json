@@ -6,14 +6,13 @@
   "homepage": "https://lamihck.github.io/chat",
   "main": "src/index.js",
   "type": "module",
+  "cracoConfig": "craco.config.cjs",
   "dependencies": {
     "@ant-design/icons": "5.0.1",
     "antd": "5.3.0",
-    "gh-pages": "^5.0.0",
     "highlight.js": "^11.7.0",
     "hljs": "^6.2.3",
     "markdown-to-jsx": "^7.2.0",
-    "node": "18",
     "openai": "3.2.1",
     "react": "18.2.0",
     "react-cookie": "^4.1.1",
@@ -24,7 +23,6 @@
     "react-spaces": "^0.4.1",
     "react-speech-kit": "3.0.1",
     "react-speech-recognition": "3.10.0",
-    "sass": "^1.59.3",
     "use-long-press": "^2.0.3"
   },
   "resolutions": {
@@ -32,6 +30,10 @@
     "react-error-overlay": "6.0.9"
   },
   "devDependencies": {
+    "craco": "^0.0.3",
+    "gh-pages": "^5.0.0",
+    "node": "18",
+    "sass": "^1.59.3",
     "css-loader": "4.3.0",
     "sass-loader": "10.1.0",
     "style-loader": "2.0.0"
@@ -39,8 +41,8 @@
   "scripts": {
     "deploy": "gh-pages -d build",
     "predeploy": "yarn run build",
-    "start": "./node_modules/node/bin/node node_modules/react-scripts/bin/react-scripts.js --openssl-legacy-provider start",
-    "build": "./node_modules/node/bin/node node_modules/react-scripts/bin/react-scripts.js --openssl-legacy-provider build"
+    "start": "./node_modules/node/bin/node node_modules/@craco/craco/bin/craco.js start",
+    "build": "./node_modules/node/bin/node node_modules/@craco/craco/bin/craco.js build"
   },
   "browserslist": [
     ">0.2%",
