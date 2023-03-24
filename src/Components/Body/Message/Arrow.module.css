@@ -1,0 +1,46 @@
+.Container {
+  position: relative;
+  width: 100%;
+}
+
+.Triangle {
+  height: 0;
+  width: 0;
+  border-top: 6px solid transparent;
+  border-right: 10px solid #444653;
+  border-bottom: 6px solid transparent;
+  margin-top: 15px;
+  position: absolute;
+  z-index: 1;
+}
+
+.TriangleShadow {
+  height: 0;
+  width: 0;
+  border-top: 6px solid transparent;
+  border-right: 10px solid #272830;
+  border-bottom: 6px solid transparent;
+  margin-top: 15px;
+  position: absolute;
+  z-index: 1;
+}
+
+.RightShadow {
+  right: 0;
+  transform: rotate(180deg);
+  margin-right: -10px;
+}
+
+.Right {
+  right: 0;
+  transform: rotate(180deg);
+  margin-right: -9px;
+}
+
+.LeftShadow {
+  margin-left: -10px;
+}
+
+.Left {
+  margin-left: -9px;
+}

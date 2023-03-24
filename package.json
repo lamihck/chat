@@ -1,0 +1,51 @@
+{
+  "name": "bubblechat",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "homepage": "https://lamihck.github.io/chat",
+  "main": "src/index.js",
+  "type": "module",
+  "dependencies": {
+    "@ant-design/icons": "5.0.1",
+    "antd": "5.3.0",
+    "gh-pages": "^5.0.0",
+    "highlight.js": "^11.7.0",
+    "hljs": "^6.2.3",
+    "markdown-to-jsx": "^7.2.0",
+    "node": "18",
+    "openai": "3.2.1",
+    "react": "18.2.0",
+    "react-cookie": "^4.1.1",
+    "react-dom": "18.2.0",
+    "react-highlight": "^0.15.0",
+    "react-resize-detector": "^8.0.4",
+    "react-scripts": "4.0.0",
+    "react-spaces": "^0.4.1",
+    "react-speech-kit": "3.0.1",
+    "react-speech-recognition": "3.10.0",
+    "sass": "^1.59.3",
+    "use-long-press": "^2.0.3"
+  },
+  "resolutions": {
+    "//": "See https://github.com/facebook/create-react-app/issues/11773",
+    "react-error-overlay": "6.0.9"
+  },
+  "devDependencies": {
+    "css-loader": "4.3.0",
+    "sass-loader": "10.1.0",
+    "style-loader": "2.0.0"
+  },
+  "scripts": {
+    "deploy": "gh-pages -d build",
+    "predeploy": "yarn run build",
+    "start": "./node_modules/node/bin/node node_modules/react-scripts/bin/react-scripts.js --openssl-legacy-provider start",
+    "build": "./node_modules/node/bin/node node_modules/react-scripts/bin/react-scripts.js --openssl-legacy-provider build"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

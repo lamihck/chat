@@ -1,0 +1,10 @@
+.Sider {
+  background-color: unset !important;
+  display: flex;
+  justify-content: center;
+}
+
+.Layout {
+  background: unset !important;
+  margin: 10px 0;
+}
