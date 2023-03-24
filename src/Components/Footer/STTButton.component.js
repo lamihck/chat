@@ -27,6 +27,7 @@ export const STTButton = ({ className, onListeningChange }) => {
     onFinish: () => handleMouseUp(),
     onCancel: () => handleClick(),
     threshold: 200,
+    captureEvent: true
   })()
 
   return (
