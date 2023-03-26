@@ -39,6 +39,8 @@ export default function App() {
   
   const [apiKey, setApiKey] = useState("");
 
+  
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const myParamValue = params.get("apiKey");

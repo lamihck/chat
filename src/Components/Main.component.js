@@ -1,5 +1,6 @@
 import 'antd/dist/reset.css';
 import { useEffect, useState } from 'react';
+import { useCookies } from "react-cookie";
 import { Bottom, Fill, Top, ViewPort } from 'react-spaces';
 import { createChatCompletion } from '../Api/Api.js';
 import { Body } from './Body/Body.component.js';
@@ -13,6 +14,20 @@ const COOKIE_API_KEY = "apiKey";
 export const Main = () => {
 
   const [history, setHistory] = useState([])
+  const [cookies, setCookie, removeCookie] = useCookies()
+
+  useEffect(() => {
+    if(history && history.length > 0){
+      setCookie('history', history)
+    }
+  }, [history])
+
+  useEffect(() => {
+    if(cookies['history'] && (!history || history.length == 0)){
+      setHistory(cookies['history'])
+    }
+  }, [cookies])
+
   const addHistory = (value) => {
     if(Array.isArray(value)) value.forEach(addHistory)
     else setHistory(prev => [...prev, value])
