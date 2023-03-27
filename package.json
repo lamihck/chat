@@ -9,6 +9,7 @@
   "cracoConfig": "craco.config.cjs",
   "dependencies": {
     "@ant-design/icons": "5.0.1",
+    "@reduxjs/toolkit": "^1.9.3",
     "antd": "5.3.0",
     "highlight.js": "^11.7.0",
     "hljs": "^6.2.3",
@@ -18,11 +19,13 @@
     "react-cookie": "^4.1.1",
     "react-dom": "18.2.0",
     "react-highlight": "^0.15.0",
+    "react-redux": "^8.0.5",
     "react-resize-detector": "^8.0.4",
     "react-scripts": "4.0.0",
     "react-spaces": "^0.4.1",
     "react-speech-kit": "3.0.1",
     "react-speech-recognition": "3.10.0",
+    "redux-persist": "^6.0.0",
     "use-long-press": "^2.0.3"
   },
   "resolutions": {
@@ -31,10 +34,10 @@
   },
   "devDependencies": {
     "craco": "^0.0.3",
+    "css-loader": "4.3.0",
     "gh-pages": "^5.0.0",
     "node": "18",
     "sass": "^1.59.3",
-    "css-loader": "4.3.0",
     "sass-loader": "10.1.0",
     "style-loader": "2.0.0"
   },

@@ -1,12 +1,12 @@
 import { Button } from "antd";
-import { useCookies } from "react-cookie";
+import { useDispatch } from "react-redux";
+import { clearHistory } from "../../Store/History.reducer";
 
 export const Clear = ({}) => {
-  const [cookies, setCookie, removeCookie] = useCookies()
+  const dispatch = useDispatch()
 
   const onClick = () => {
-    removeCookie('history')
-    window.location.reload()
+    dispatch(clearHistory())
   }
  
   return (
