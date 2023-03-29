@@ -1,47 +1,30 @@
-import { CopyOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
-import hljs from 'highlight.js';
-import "highlight.js/styles/base16/eighties.css";
-import React, { useEffect, useRef } from 'react';
 
-export const CodeBlock = ({language, children, className}) => {
-  const ref = useRef(null)
+import { CopyOutlined } from "@ant-design/icons";
+import { Button } from "antd";
+import { useRef } from "react";
+import style from './CodeBlock.module.css';
+import "./prism-vsc-dark-plus.css";
 
-  useEffect(() => {
-    if(ref.current){
-      hljs.highlightBlock(ref.current)
-    }
-  }, [])
-
-  const titleStyle = {
-    width: '100%',
-    backgroundColor: '#494a56bf',
-    borderRadius: '5px 5px 0 0',
-    padding: '5px 12px',
-    fontSize: 'small',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  }
-
-  const codeStyle = {
-    borderRadius: '0 0 5px 5px',
-    fontSize: '14px'
-  }
-
+export const CodeBlock = ({ children, ...props }) => {
+  const ref = useRef(null);
   const onCopy = () => {
-    navigator.clipboard.writeText(children)
+    if (ref.current) {
+      const code = ref.current.innerText;
+      navigator.clipboard.writeText(code)
+    }
   }
-
   return (
-    <>
-    {className && <div style={titleStyle}>
-      <span>{className && className.replace('lang-','')}</span>
-      <Button style={{color: '#d1d5db', padding: 0, height: '26px', fontSize: '12px'}} type={'text'} onClick={onCopy}><CopyOutlined /> Copy</Button>
-    </div>}
-    <code style={codeStyle} className={`hljs ${className && `language-${className.replace('lang-','')}`}`} ref={ref}>
-      {children}
-    </code>
-    </>
-  )
+    <div className={style.BlockContainer} >
+      <div className={style.BlockHeader}>
+        <span>{props.className && props.className.replace('language-', '')}</span>
+        <Button className={style.CopyButton} type={'text'} onClick={onCopy}>
+          <CopyOutlined />Copy
+        </Button>
+      </div>
+
+      <pre className={props.className} ref={ref} style={{ backgroundColor: '#2d2d2d', borderRadius: '0 0 7px 7px', marginTop: '0' }}>
+        {children}
+      </pre>
+    </div>
+  );
 }

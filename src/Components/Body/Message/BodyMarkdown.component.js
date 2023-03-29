@@ -1,20 +1,22 @@
-import Markdown from "markdown-to-jsx"
-import { CodeBlock } from "./CodeBlock.component.js"
 
-export const BodyMarkdown = ({children}) => {
+import "katex/dist/katex.min.css";
+import ReactMarkdown from "react-markdown";
+import RehypeKatex from "rehype-katex";
+import RehypePrism from "rehype-prism-plus";
+import RemarkGfm from "remark-gfm";
+import RemarkMath from "remark-math";
+import { CodeBlock } from "./CodeBlock.component";
+import './MarkdownTable.css';
 
-  const options = { 
-    forceBlock: true, 
-    overrides: { 
-      code: { 
-        component: CodeBlock 
-      }
-    } 
-  }
-
+export const BodyMarkdown = ({ children }) => {
   return (
-    <Markdown key={children} options={options}>
-      {(children.match(/```/g) || []).length % 2 == 0 ? children : children + '```'}
-    </Markdown>
+    <ReactMarkdown
+      key={children}
+      remarkPlugins={[RemarkMath, RemarkGfm]}
+      rehypePlugins={[RehypeKatex, [RehypePrism, { ignoreMissing: true }]]}
+      components={{pre: CodeBlock}}
+    >
+      {children}
+    </ReactMarkdown>
   )
 }

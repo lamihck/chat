@@ -3,6 +3,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
 import HistorySlice from './History.reducer.js';
+import OpenAISlice from './OpenAI.reducer.js';
 
 const persistConfig = {
   key: 'root',
@@ -10,7 +11,8 @@ const persistConfig = {
 }
 
 const rootReducer = combineReducers({ 
-  history: HistorySlice
+  history: HistorySlice,
+  openAI: OpenAISlice
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

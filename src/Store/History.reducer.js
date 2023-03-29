@@ -28,16 +28,3 @@ export const HistorySlice = createSlice({
 
 export const {pushHistory, editLastHistory, clearHistory} = HistorySlice.actions
 export default HistorySlice.reducer
-
-/**
- * setHistory(prev => {
-      let lastHistory = prev[prev.length - 1]
-      if(lastHistory && lastHistory.direction == 'left'){
-        prev.pop()
-        return [...prev, {...lastHistory, text: value}]
-      }
-      else {
-        return [...prev, {direction: 'left', text: value}]
-      }
-    })
- */
