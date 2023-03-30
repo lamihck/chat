@@ -49,6 +49,7 @@ export const OpenAISlice = createSlice({
     setToken(state, {payload}) {
       //console.info('promptToken', getToken(state.prompt, []))
       state.token = getToken(state.prompt, payload)
+      state.prompt = state.prompt || initalPrompt;
     }
   }
 });

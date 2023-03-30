@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Fill } from 'react-spaces';
+import _ from 'lodash';
 
 export const AutoScrollFill = (props) => {
   const [ref, setRef] = useState()
@@ -31,7 +32,7 @@ export const AutoScrollFill = (props) => {
     ref.lastElementChild.scrollIntoView({ behavior: "smooth", block: "end" })
   }
 
-  const handleResize = debounce(_handleResize, 1000)
+  const handleResize = _.debounce(_handleResize, 1000, {leading:true, trailing:false })
 
   return (
     <Fill {...props} onScroll={() => console.info('onScroll')}>
