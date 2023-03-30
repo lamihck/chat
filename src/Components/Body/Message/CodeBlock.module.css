@@ -11,9 +11,20 @@
   align-items: center;
 }
 
+.BlockSpan {
+  padding: 0 9px;
+  font-size: 12px;
+}
+
 .CopyButton {
   color: #d1d5db;
-  padding: 0;
+  padding: 0 9px;
   height: 26px;
   font-size: 12px;
+}
+
+.BlockPre {
+  background-color: #2d2d2d;
+  border-radius: 0 0 7px 7px;
+  margin-top: 0 !important;
 }

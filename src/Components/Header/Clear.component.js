@@ -10,6 +10,6 @@ export const Clear = ({}) => {
   }
  
   return (
-    <Button onClick={onClick}>Refresh</Button>
+    <Button style={{backgroundColor: 'transparent', color: 'inherit'}} onClick={onClick}>Refresh</Button>
   )
 }

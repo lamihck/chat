@@ -27,8 +27,8 @@ export const Main = () => {
     dispatch(editLastHistory(value))
   }
 
-  //const [apiKey, setApiKey] = useState("");
   const apiKey = useSelector(({openAI}) => openAI.apiKey)
+  const prompt = useSelector(({openAI}) => openAI.prompt)
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -36,14 +36,13 @@ export const Main = () => {
       dispatch(setApiKey(params.get(QUERY_API_KEY)))
     }
     else if(apiKey) {
-      console.info(apiKey)
       setSearchParams({[QUERY_API_KEY]: apiKey})
     }
   }, []);
 
   const onSend = async (text) => {
     addHistory({text, direction: 'right'})
-    createChatCompletion(apiKey, 'gpt-3.5-turbo', null, text, history.map(({text, direction}) => ({content: text, role: direction == 'right' ? 'user' : 'assistant'})), onResponse)
+    createChatCompletion(apiKey, 'gpt-3.5-turbo', prompt, text, history.map(({text, direction}) => ({content: text, role: direction == 'right' ? 'user' : 'assistant'})), onResponse)
   }
 
   const onResponse = (text) => {
