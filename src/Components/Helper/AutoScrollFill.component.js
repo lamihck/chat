@@ -1,23 +1,10 @@
 import _ from 'lodash';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { Fill } from 'react-spaces';
 
 export const AutoScrollFill = (props) => {
   const [ref, setRef] = useState()
-  let timeout = useRef(null)
-
-  const debounce = (func, delay) => {
-    let timeoutId;
-    return function(...args) {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-      timeoutId = setTimeout(() => {
-        func(...args);
-      }, delay);
-    };
-  }
-
+  
   useLayoutEffect(() => {
     handleResize()
   }, [props.children, ref]);

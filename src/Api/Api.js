@@ -8,6 +8,7 @@ const fakeCreateChatCompletition = async (apiKey, model, prompt, query, history,
     cb(acc)
     await new Promise(resolve => setTimeout(resolve, 50))
   }
+  return acc
 }
 
 
@@ -52,6 +53,7 @@ export const createChatCompletion = async (apiKey, model, prompt, query, history
         try {
           const data = JSON.parse(line.slice(6));
           const delta = data.choices[0].delta;
+          delta['finish_reason'] = data.choices[0]['finish_reason'] ?? ''
           if(data.choices[0]['finish_reason'] == 'length'){
             createChatCompletion(apiKey, model, null, 'continue', 
               [
