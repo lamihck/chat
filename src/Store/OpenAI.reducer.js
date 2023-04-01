@@ -73,9 +73,16 @@ export const OpenAISlice = createSlice({
       //console.info('promptToken', getToken(state.prompt, []))
       state.token = getToken(state.prompt, payload)
       state.prompt = state.prompt || initialPrompt;
+    },
+    resetPrompt(state){
+      state.prompt = OpenAISlice.getInitialState().prompt;
+    },
+    resetModel(state){
+      state.model = OpenAISlice.getInitialStateg().model;
     }
+
   }
 })
 
-export const {setApiKey, setPrompt} = OpenAISlice.actions
+export const {setApiKey, setPrompt, resetPrompt, resetModel } = OpenAISlice.actions
 export default OpenAISlice.reducer
