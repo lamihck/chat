@@ -11,9 +11,14 @@ export const Message = ({ role, children }) => {
   const [avatar, setAvatar] = useState('')
 
   useEffect(() => {
-    const smileys = children.match(/^(.*?)([\uD800-\uDBFF][\uDC00-\uDFFF])(.*)$/);
-    setText(smileys ? smileys[1] + smileys[3] : children);
-    setAvatar(smileys ? smileys[2] : (role === 'assistant' ? '🤖' : '😃'));
+    if (typeof children === "string") {
+      const smileys = children.match(/^(.*?)([\uD800-\uDBFF][\uDC00-\uDFFF])(.*)$/);
+      setText(smileys ? smileys[1] + smileys[3] : children);
+      setAvatar(smileys ? smileys[2] : (role === 'assistant' ? '🤖' : '😃'));
+    }
+    else {
+      setText(children)
+    }
   }, [children, role])
 
 
