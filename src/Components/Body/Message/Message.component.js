@@ -11,17 +11,10 @@ export const Message = ({ direction, children }) => {
   const [avatar, setAvatar] = useState('')
 
   useEffect(() => {
-    const smileyRegex = /^[\uD83C-\uDBFF][\uDC00-\uDFFF]/
-    if(typeof children == 'string' && smileyRegex.test(children)){
-      const extracted = children.match(smileyRegex)[0]
-      setText(children.substring(extracted.length))
-      setAvatar(extracted)
-    }
-    else {
-      setText(children)
-      setAvatar(direction == 'right' ? 'User' : 'IA')
-    }
-  }, [children])
+    const smileys = children.match(/^(.*?)([\uD800-\uDBFF][\uDC00-\uDFFF])(.*)$/);
+    setText(smileys ? smileys[1] + smileys[3] : children);
+    setAvatar(smileys ? smileys[2] : (role === 'assistant' ? '🤖' : '😃'));
+  }, [children, role])
 
   return (
     <Layout className={style.Layout}>
