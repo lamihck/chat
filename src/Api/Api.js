@@ -1,11 +1,21 @@
-import { encode } from '@nem035/gpt-3-encoder';
 
-export const getToken = (prompt, history) => {
-  let tokens = history.map(({content}) => content).map(encode).map(t => t.length)
-  console.info(tokens)
+const fakeCreateChatCompletition = async (apiKey, model, prompt, query, history, cb) => {
+  
+  let parts = Array.from({length: 200}, (_v, i) => `${i%5==0 ? '`' : ''}${Math.random().toString(36).substring(2, 6)}${i%5==0 ? '`' : ''}${Math.random() > 0.2 ? ' ' : '\n\r'}`)
+  let acc = ''
+  for await(let part of parts){
+    acc += part
+    cb(acc)
+    await new Promise(resolve => setTimeout(resolve, 50))
+  }
+  return acc
 }
 
+
 export const createChatCompletion = async (apiKey, model, prompt, query, history, cb) => {
+
+  if(!cb) return fakeCreateChatCompletition(apiKey, model, prompt, query, history, cb)
+
   let messages = [
     {
       role: "system",
@@ -13,8 +23,6 @@ export const createChatCompletion = async (apiKey, model, prompt, query, history
     },
     ...(history ? history.map(({ role, content }) => ({ role: role == 'user' ? role : 'assistant', content })) : [])
   ]
-
-  getToken(prompt, messages)
 
   var es = await fetch("https://api.openai.com/v1/chat/completions", {
     headers: {
@@ -45,6 +53,7 @@ export const createChatCompletion = async (apiKey, model, prompt, query, history
         try {
           const data = JSON.parse(line.slice(6));
           const delta = data.choices[0].delta;
+          delta['finish_reason'] = data.choices[0]['finish_reason'] ?? ''
           if(data.choices[0]['finish_reason'] == 'length'){
             createChatCompletion(apiKey, model, null, 'continue', 
               [

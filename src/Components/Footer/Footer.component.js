@@ -4,7 +4,7 @@ import { Input } from "./Input.component.js";
 export const Footer = ({onSend}) => {
 
   return (
-    <Message direction={'right'}>
+    <Message role={'user'}>
       <Input onSend={onSend}/>
     </Message>
   )

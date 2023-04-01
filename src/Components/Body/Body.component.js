@@ -6,8 +6,8 @@ export const Body = ({history}) => {
 
   return (
     <AutoScrollFill scrollable={true} className={style.Body}>
-      {history.map(({text, direction}, i) => (
-        <Message key={i} direction={direction}>{text}</Message>
+      {history.map(({content, role}, i) => (
+        <Message key={i} role={role}>{content}</Message>
       ))}
     </AutoScrollFill>
   )

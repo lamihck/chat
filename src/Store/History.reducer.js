@@ -16,6 +16,12 @@ export const clearHistory = createAsyncThunk(`clearHistory`, async (arg, {dispat
   dispatch(setToken())
 })
 
+const roles = {
+  system: 'system',
+  user: 'user',
+  assistant: 'assistant'
+}
+
 export const HistorySlice = createSlice({
   name: 'History',
   initialState: { 
@@ -28,12 +34,12 @@ export const HistorySlice = createSlice({
     editLastHistory(state, {payload}) {
       let prev = state.history
       let lastHistory = prev[prev.length - 1]
-      if(lastHistory && lastHistory.direction == 'left'){
+      if(lastHistory && lastHistory.role == roles.assistant){
         prev.pop()
-        state.history = [...prev, {...lastHistory, text: payload}]
+        state.history = [...prev, {...lastHistory, content: payload}]
       }
       else {
-        state.history = [...prev, {direction: 'left', text: payload}]
+        state.history = [...prev, {role: roles.assistant, content: payload}]
       }
     },
     clearHistory(state) {
