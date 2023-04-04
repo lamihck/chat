@@ -12,6 +12,7 @@
     "@nem035/gpt-3-encoder": "^1.1.7",
     "@reduxjs/toolkit": "^1.9.3",
     "antd": "5.3.0",
+    "gpt3-tokenizer": "^1.1.5",
     "highlight.js": "^11.7.0",
     "hljs": "^6.2.3",
     "lodash": "^4.17.21",
@@ -35,6 +36,7 @@
     "rehype-prism-plus": "^1.5.1",
     "remark-gfm": "^3.0.1",
     "remark-math": "^5.1.1",
+    "sse.js": "0.6.1",
     "use-long-press": "^2.0.3"
   },
   "resolutions": {
@@ -53,7 +55,7 @@
   "scripts": {
     "deploy": "gh-pages -d build",
     "predeploy": "yarn run build",
-    "linux":"export NODE_OPTIONS=--openssl-legacy-provider",
+    "linux": "export NODE_OPTIONS=--openssl-legacy-provider",
     "start": "./node_modules/node/bin/node node_modules/@craco/craco/bin/craco.js start",
     "build": "./node_modules/node/bin/node node_modules/react-scripts/bin/react-scripts.js --max_old_space_size=8192 build"
   },

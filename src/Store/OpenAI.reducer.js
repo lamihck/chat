@@ -78,7 +78,7 @@ export const OpenAISlice = createSlice({
       state.prompt = OpenAISlice.getInitialState().prompt;
     },
     resetModel(state){
-      state.model = OpenAISlice.getInitialStateg().model;
+      state.model = OpenAISlice.getInitialState().model;
     }
 
   }
