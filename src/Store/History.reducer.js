@@ -31,6 +31,9 @@ export const HistorySlice = createSlice({
     pushHistory(state, {payload}) {
       state.history = [...state.history, payload];
     },
+    setHistory(state, {payload}) {
+      state.history = payload;
+    },
     editLastHistory(state, {payload}) {
       let prev = state.history
       let lastHistory = prev[prev.length - 1]
@@ -48,5 +51,5 @@ export const HistorySlice = createSlice({
   }
 });
 
-export const {} = HistorySlice.actions
+export const {setHistory} = HistorySlice.actions
 export default HistorySlice.reducer

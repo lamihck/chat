@@ -6,7 +6,7 @@ export const Body = ({history}) => {
 
   return (
     <AutoScrollFill scrollable={true} className={style.Body}>
-      {history.map(({content, role}, i) => (
+      {history.filter(({role}) => role !== 'system').map(({content, role}, i) => (
         <Message key={i} role={role}>{content}</Message>
       ))}
     </AutoScrollFill>

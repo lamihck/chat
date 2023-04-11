@@ -5,6 +5,7 @@ import { SSE } from 'sse.js';
 const CHAT_COMPLETIONS_URL = 'https://api.openai.com/v1/chat/completions';
 const tokenizer = new GPT3Tokenizer({ type: 'gpt3' });
 const officialOpenAIParams = ({ content, role }) => ({ content, role });
+
 const createChatMessage = ({ content, role, ...restOfParams }) => ({
     content,
     role,
@@ -14,6 +15,52 @@ const createChatMessage = ({ content, role, ...restOfParams }) => ({
     token: content ? tokenizer.encode(content).bpe.length : 0,
     ...restOfParams
 });
+
+const setMessageListener = (source, setMessages, updatedMessages) => {
+    source.addEventListener('message', (e) => {
+        if (e?.data !== '[DONE]') {
+            const payload = JSON.parse(e?.data || '{}');
+            const chunk = payload?.choices?.[0]?.delta;
+            const finishReason = payload?.choices?.[0]?.finish_reason;
+            setMessages((msgs) => msgs.map((message, i) => {
+                if (updatedMessages.length - 1 === i) {
+                    return {
+                        content: message.content + (chunk?.content || ''),
+                        role: message.role + (chunk?.role || ''),
+                        timestamp: Date.now(),
+                        token: message.token + (chunk?.content ? 1 : 0),
+                        finishReason
+                    };
+                }
+                return message;
+            }));
+        }
+        else {
+            source.close();
+        }
+    });
+};
+
+const setReadyStateChangeListener = (source, setMessages, updatedMessages) => {
+    const beforeTimestamp = Date.now();
+    source.addEventListener('readystatechange', (e) => {
+        if (e.readyState && e.readyState > 1) {
+            const afterTimestamp = Date.now();
+            const diffInSeconds = afterTimestamp - beforeTimestamp;
+            setMessages((msgs) => msgs.map((message, i) => {
+                if (updatedMessages.length - 1 === i) {
+                    return {
+                        ...message,
+                        timestamp: afterTimestamp,
+                        loading: false,
+                        responseTime: diffInSeconds
+                    };
+                }
+                return message;
+            }));
+        }
+    });
+};
 
 /**
  * Takes an object containing two properties: "model" and "apiKey". Use the returned
@@ -33,15 +80,13 @@ export const useChatCompletion = ({ model, apiKey }) => {
 
         if (!newMessages || newMessages.length < 1) return setMessages([]);
         if (messages[messages.length - 1]?.loading) return;
-
-        let isPrompt = newMessages.length == 1 && newMessages[0].role === 'system'
         
-        const beforeTimestamp = Date.now();
         const updatedMessages = [
-            ...messages,
-            ...newMessages.map(createChatMessage),
+            ...newMessages.filter(({role}) => role == 'system').map(createChatMessage),
+            ...messages.filter(({role}) => role !== 'system' || newMessages.filter(({role}) => role == 'system').length == 0),
+            ...newMessages.filter(({role}) => role !== 'system').map(createChatMessage),
         ];
-        if(!isPrompt) updatedMessages.push(createChatMessage({ content: '', role: '', loading: true }))
+
         setMessages(updatedMessages);
 
         const source = new SSE(CHAT_COMPLETIONS_URL, {
@@ -53,54 +98,21 @@ export const useChatCompletion = ({ model, apiKey }) => {
             payload: JSON.stringify({
                 model,
                 messages: updatedMessages
-                    .filter((_m, i) => updatedMessages.length - 1 !== i)
                     .map(officialOpenAIParams),
                 stream: true,
             }),
         });
 
-        source.addEventListener('message', (e) => {
-            if (e?.data !== '[DONE]') {
-                const payload = JSON.parse(e?.data || '{}');
-                const chunk = payload?.choices?.[0]?.delta;
-                setMessages((msgs) => msgs.map((message, i) => {
-                    if (updatedMessages.length - 1 === i) {
-                        return {
-                            content: message.content + (chunk?.content || ''),
-                            role: message.role + (chunk?.role || ''),
-                            timestamp: Date.now(),
-                            token: message.token + (chunk?.content ? 1 : 0)
-                        };
-                    }
-                    return message;
-                }));
-            }
-            else {
-                source.close();
-            }
-        });
-
-        source.addEventListener('readystatechange', (e) => {
-            if (e.readyState && e.readyState > 1) {
-                const afterTimestamp = Date.now();
-                const diffInSeconds = afterTimestamp - beforeTimestamp;
-                setMessages((msgs) => msgs.map((message, i) => {
-                    if (updatedMessages.length - 1 === i) {
-                        return {
-                            ...message,
-                            timestamp: afterTimestamp,
-                            loading: false,
-                            responseTime: diffInSeconds
-                        };
-                    }
-                    return message;
-                }));
-            }
-        });
-
-        if(!isPrompt) 
+        if(updatedMessages.length > 0 && updatedMessages[updatedMessages.length - 1].role == 'user'){
+            updatedMessages.push(createChatMessage({ content: '', role: '', loading: true }))
+            setMessages(updatedMessages);
+            setMessageListener(source, setMessages, updatedMessages);
+            setReadyStateChangeListener(source, setMessages, updatedMessages);
             source.stream();
+        }
         
     }, [messages, setMessages]);
     return [messages, submitQuery];
 };
+
+
