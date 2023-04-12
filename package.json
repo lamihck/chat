@@ -57,7 +57,7 @@
     "predeploy": "yarn run build",
     "linux": "export NODE_OPTIONS=--openssl-legacy-provider",
     "start": "./node_modules/node/bin/node node_modules/@craco/craco/bin/craco.js start",
-    "build": "./node_modules/node/bin/node node_modules/react-scripts/bin/react-scripts.js --max_old_space_size=8192 build"
+    "build": "./node_modules/node/bin/node node_modules/react-scripts/bin/react-scripts.js --openssl-legacy-provider --max_old_space_size=8192 build"
   },
   "browserslist": [
     ">0.2%",
